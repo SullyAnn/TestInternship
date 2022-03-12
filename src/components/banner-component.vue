@@ -5,10 +5,19 @@
 
             <!-- Square mode -->
             <a  class="element" v-if="element.type=='image'" :href="element.link">
-                <img class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
+                <img v-if="carousel=false" class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
+                <swiper v-else-if="carousel=true && item.length>3" :slides-per-view="element.length-1"
+                :space-between="50"
+                @swiper="onSwiper"
+                @slideChange="onSlideChange">
+
+                    <swiper-slide>
+                        <img class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
+                    </swiper-slide>
+                </swiper>
             </a>
 
-            <a v-else-if =" element.type == 'cta'" tesfunction class="element-cta" :href="element.link"> 
+            <a v-else-if =" element.type == 'cta'"  class="element-cta" :href="element.link"> 
                 <h2>{{element.title}}</h2>
                 <button :href="element.link">{{element.button}}</button>
             </a>
@@ -23,7 +32,7 @@
                 <img class="element-image " alt="couch from Butopea website" :src="element.pictureUrl" >
             </a>
 
-             <a v-else-if ="element.type == 'cta'" tesfunction class="opacity element-cta " :href="element.link"> 
+             <a v-else-if ="element.type == 'cta'" class="opacity element-cta " :href="element.link"> 
                 <h2>{{element.title}}</h2>
                 <button :href="element.link">{{element.button}}</button>
             </a>
@@ -33,6 +42,8 @@
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from '../node_modules/swiper/vue';
+
 export default {
   name: 'banner-component',
 	props: {
@@ -40,7 +51,34 @@ export default {
         carousel : {type: Boolean, required: false},
         item : {type: Array, required: true,}
 	},
+    methods: {
+       onResizeScreen(){
+           const elements = document.querySelectorAll('.element-cta')
+            elements.forEach(function(element){
+                element.parentElement.classList.add('resizing-elements')
+                console.log('ok?')
+                })
+        },
+
+    },
+    
+    beforeMount(){
+        window.onload = this.onResizeScreen
+    },
+    setup() {
+      const onSwiper = (swiper) => {
+        console.log(swiper);
+      };
+      const onSlideChange = () => {
+        console.log('slide change');
+      };
+      return {
+        onSwiper,
+        onSlideChange,
+      };
+    },
 }
+ const swiper = new Swiper();
 </script>
 
 <style>
@@ -114,6 +152,43 @@ button{
 .rectangle {
     justify-content: space-between;
     width: auto;
+}
+
+/*********************** media queries **********************/ 
+
+@media screen and (max-width:415px)  {
+    html{
+        display: flex;
+        justify-content: center;
+    }
+    body{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+    h2{
+        font-size: 32px;
+    }
+    button{
+        font-size: 16px;
+        padding: 8px 24px
+    }
+    .elements{
+        padding-inline: 0;
+    }
+    .element {
+        width: 100%;
+        height: 100%;
+    }
+    .element-rectangle {
+        width: 100%;
+        height: 100%;
+    }
+    .resizing-elements{
+        height: 150px;
+    }
 }
 
 </style>
