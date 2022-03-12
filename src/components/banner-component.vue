@@ -5,8 +5,8 @@
 
             <!-- Square mode -->
             <a  class="element" v-if="element.type=='image'" :href="element.link">
-                <img v-if="carousel=false" class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
-                <swiper v-else-if="carousel=true && item.length>3" :slides-per-view="element.length-1"
+                <img class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
+               <!-- <swiper v-else-if="carousel=true && item.length>3" :slides-per-view="element.length-1"
                 :space-between="50"
                 @swiper="onSwiper"
                 @slideChange="onSlideChange">
@@ -14,7 +14,7 @@
                     <swiper-slide>
                         <img class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
                     </swiper-slide>
-                </swiper>
+                </swiper>-->
             </a>
 
             <a v-else-if =" element.type == 'cta'"  class="element-cta" :href="element.link"> 
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from '../node_modules/swiper/vue';
+//import { Swiper, SwiperSlide } from '../node_modules/swiper/vue';
 
 export default {
   name: 'banner-component',
@@ -65,6 +65,7 @@ export default {
     beforeMount(){
         window.onload = this.onResizeScreen
     },
+    /*
     setup() {
       const onSwiper = (swiper) => {
         console.log(swiper);
@@ -76,9 +77,8 @@ export default {
         onSwiper,
         onSlideChange,
       };
-    },
+    },*/
 }
- const swiper = new Swiper();
 </script>
 
 <style>
