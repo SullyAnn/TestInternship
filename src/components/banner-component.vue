@@ -8,7 +8,7 @@
             <Cta :mode="mode" :item="element" v-else />
 
             <!-- I did not succeed in implementing the slider part. I had a problem with the installation of the swiper lib
-            Actually i dont know if this comes from my version or something else. I search for the error or several forum (stackoverflow)
+            Actually i dont know if this comes from my version or something else. I search for the error on several forums
             but none of the solution worked for me =( 
             I commented the implementation of the swiper, maybe you will know where my error comes from by looking at it
 
