@@ -2,7 +2,7 @@
   <div>
     <BannerComponent mode='square' :carousel="false" :item ="items" />
     <BannerComponent mode='square' :carousel="true" :item ="items2" />
-    <BannerComponent mode='rectangle' :carousel="true" :item ="items3" />
+    <BannerComponent mode='rectangle' :carousel="false" :item ="items3" />
   </div>
 </template>
 

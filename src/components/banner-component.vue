@@ -1,26 +1,15 @@
 <template>
-<div>
+<div class="content">
     <section v-if="mode=='square' " class="elements">
         <div class="element" v-for="element in item" :key="element.index" >
 
             <!-- Square mode -->
-            <a  class="element" v-if="element.type=='image'" :href="element.link">
-                <img class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
-               <!-- <swiper v-else-if="carousel=true && item.length>3" :slides-per-view="element.length-1"
-                :space-between="50"
-                @swiper="onSwiper"
-                @slideChange="onSlideChange">
+            <ImageComponent :mode ='mode' :item="element" v-if="element.type =='image'" />
+            <Cta :mode="mode" :item="element" v-else />
 
-                    <swiper-slide>
-                        <img class="element-image" alt="couch from Butopea website" :src="element.pictureUrl" >
-                    </swiper-slide>
-                </swiper>-->
-            </a>
-
-            <a v-else-if =" element.type == 'cta'"  class="element-cta" :href="element.link"> 
-                <h2>{{element.title}}</h2>
-                <button :href="element.link">{{element.button}}</button>
-            </a>
+            <!-- I did not succeed in implementing the slider part.
+            I wish you will enjoyed reading the rest of my code =)
+            <SliderComponent :itemNoCTA="results" v-if="carousel &&$isMobile()" />-->
 
       </div>
     </section>
@@ -28,78 +17,102 @@
     <section v-else class=" rectangle elements ">
          <div class="element" v-for="element in item" :key="element.index" >
             <!-- Rectangle mode -->
-            <a  class="element-rectangle" v-if="element.type=='image'" :href="element.link">
-                <img class="element-image " alt="couch from Butopea website" :src="element.pictureUrl" >
-            </a>
+            <ImageComponent :mode ='mode' :item="element" v-if="element.type =='image'" />
+            <Cta :mode="mode" :item="element" v-else />
 
-             <a v-else-if ="element.type == 'cta'" class="opacity element-cta " :href="element.link"> 
-                <h2>{{element.title}}</h2>
-                <button :href="element.link">{{element.button}}</button>
-            </a>
-      </div>
+        </div>
+
     </section>
 </div>   
 </template>
 
 <script>
-//import { Swiper, SwiperSlide } from '../node_modules/swiper/vue';
+import Cta from './cta.vue'
+import ImageComponent from './imageComponent.vue'
+//import SliderComponent from './slider-component.vue'
+
 
 export default {
-  name: 'banner-component',
+    name: 'banner-component',
+    components: {
+        Cta, 
+        ImageComponent, 
+        //SliderComponent
+    },
 	props: {
         mode : {type: String, required: true}, 
         carousel : {type: Boolean, required: false},
         item : {type: Array, required: true,}
 	},
-    methods: {
-       onResizeScreen(){
-           const elements = document.querySelectorAll('.element-cta')
-            elements.forEach(function(element){
-                element.parentElement.classList.add('resizing-elements')
-                console.log('ok?')
-                })
+    computed: {
+        screenWidth : function(){
+        return window.innerWidth
         },
 
     },
-    
-    beforeMount(){
-        window.onload = this.onResizeScreen
-    },
     /*
-    setup() {
-      const onSwiper = (swiper) => {
-        console.log(swiper);
-      };
-      const onSlideChange = () => {
-        console.log('slide change');
-      };
-      return {
-        onSwiper,
-        onSlideChange,
-      };
-    },*/
+    methods: {
+        itemNoCta: function(){
+
+            let newTab = [{
+                type : "slider",
+                imgs : this.item.filter((element) => element === "img")
+                }]
+
+                let cta_index = -1
+                for (let i = 0; i < this.item.length; i++) {
+                    if (this.item[i] === "cta") {
+                        cta_index = i
+                        break;
+                    }
+                }
+
+                if (cta_index === 0) { newTab.unshift(this.item[cta_index]) }
+                else if (cta_index > 0) { newTab.push(this.item[cta_index]) }
+                
+        return this.results = newTab;
+        }
+    },
+    beforeMount(){
+        this.itemNoCta
+        console.log(this.results)
+    },
+
+    data(){
+        return {
+            results: []
+        }
+    }*/
+
 }
 </script>
 
 <style>
+body{
+    background-color: #2b2b2b;
+}
 a{
     text-decoration: none;
 }
 h2{
     font-family: 'Barlow Condensed';
     font-size: 48px;
-    color: white;
+    color: #2b2b2b;
 }
 button{
     background-color: unset;
-    border: 1px solid white;
-    color: white;
+    color: #2b2b2b;
     padding: 25px;
     padding: 16px 32px;
     text-align: center;
     font-size: 24px;
     font-weight: 600;
     cursor: pointer;
+     border: 1px solid #2b2b2b;
+}
+.content{
+    display: flex;
+    flex-direction: column;
 }
 .elements{
     display: flex;
@@ -115,43 +128,13 @@ button{
     width: 500px;
     height: 500px;
     display: flex;
-    border: 1px solid #42f5c2;
 }
-.element-image{
-    object-fit: cover;
-    width: inherit;
-    height: inherit;
-    object-position: center;
-}
-.element-cta{
-    width: 100%;
-    height: 100%;
-    background-color: #42f5c2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.opacity{
-    background-color: rgba(255,255,255 0.5);
-}
-.element-rectangle{
-    width: 1500px;
-    height: 500px;
-}
-.opacity{
-    background-color: rgba(255,255,255,0.8);
-}
-.opacity h2 {
-    color: #42f5c2;
-}
-.opacity button{
-    color: #42f5c2;
-    border: 1px solid #42f5c2;
-}
+
+
+
 .rectangle {
     justify-content: space-between;
-    width: auto;
+    width: 1500px;
 }
 
 /*********************** media queries **********************/ 
@@ -185,9 +168,17 @@ button{
     .element-rectangle {
         width: 100%;
         height: 100%;
+        display: flex;
     }
-    .resizing-elements{
-        height: 150px;
+    .element-cta{
+        padding-block: 20px;
+    }
+
+    .opacity{
+        background-color: rgba(255,255,255,1);
+    }
+    .rectangle{
+        width: auto;
     }
 }
 

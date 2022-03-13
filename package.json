@@ -8,11 +8,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.16.11",
     "core-js": "^3.6.5",
     "normalize.css": "^8.0.1",
-    "swiper": "^8.0.7",
     "v-aspect-ratio": "^2.0.1",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-mobile-detection": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
