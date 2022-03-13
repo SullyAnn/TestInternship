@@ -11,7 +11,7 @@
 </template>
 
 <script>
-//import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
     name: 'slider-component',
